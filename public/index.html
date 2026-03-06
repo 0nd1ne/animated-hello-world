@@ -8,11 +8,76 @@
   </head>
   <body>
     <main class="hello-wrapper">
+      <div class="view-badge" aria-live="polite">Views: --</div>
       <div class="hello-content">
         <h1 class="hello-text">Hello, World!</h1>
         <p class="hello-context">A gentle animated greeting served from Express.</p>
         <p class="hello-subtext">This is Ondine's work.</p>
       </div>
     </main>
+
+    <script>
+      (() => {
+        const badge = document.querySelector('.view-badge');
+        let pollTimer = null;
+
+        const renderViews = (views) => {
+          if (typeof views !== 'number' || Number.isNaN(views)) {
+            return;
+          }
+
+          badge.textContent = `Views: ${views}`;
+        };
+
+        const fetchViews = async () => {
+          try {
+            const response = await fetch('/api/views', { cache: 'no-store' });
+
+            if (!response.ok) {
+              throw new Error('Unable to fetch views');
+            }
+
+            const data = await response.json();
+            renderViews(data.views);
+            return true;
+          } catch (_) {
+            return false;
+          }
+        };
+
+        const startPolling = () => {
+          if (pollTimer) {
+            return;
+          }
+
+          pollTimer = setInterval(fetchViews, 10000);
+        };
+
+        const startRealtime = () => {
+          if (!('EventSource' in window)) {
+            startPolling();
+            return;
+          }
+
+          const source = new EventSource('/api/views/stream');
+
+          source.onmessage = (event) => {
+            try {
+              const data = JSON.parse(event.data);
+              renderViews(data.views);
+            } catch (_) {
+              // Keep current badge value if payload parsing fails.
+            }
+          };
+
+          source.onerror = () => {
+            source.close();
+            startPolling();
+          };
+        };
+
+        fetchViews().finally(startRealtime);
+      })();
+    </script>
   </body>
 </html>
