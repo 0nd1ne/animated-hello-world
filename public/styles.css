@@ -32,6 +32,13 @@ body {
   justify-content: center;
 }
 
+.hello-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
 .hello-text {
   padding: 1.5rem 2.75rem;
   border-radius: 1.25rem;
@@ -42,6 +49,15 @@ body {
   box-shadow: 0 25px 35px rgba(2, 6, 23, 0.65);
   color: var(--accent-1);
   animation: helloGlow 8s ease-in-out infinite;
+  text-align: center;
+}
+
+.hello-subtext {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: rgba(248, 250, 252, 0.85);
+  max-width: 28rem;
   text-align: center;
 }
 
