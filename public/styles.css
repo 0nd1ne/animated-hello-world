@@ -26,6 +26,7 @@ body {
 }
 
 .hello-wrapper {
+  position: relative;
   width: min(32rem, 100%);
   padding: 2rem;
   border-radius: 1.5rem;
@@ -33,6 +34,20 @@ body {
   box-shadow: 0 25px 60px rgba(2, 6, 23, 0.6);
   text-align: center;
   animation: surfacePulse 10s ease-in-out infinite;
+}
+
+.view-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(2, 6, 23, 0.72);
+  border: 1px solid rgba(248, 250, 252, 0.24);
+  color: rgba(248, 250, 252, 0.95);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .hello-content {
